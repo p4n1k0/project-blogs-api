@@ -6,29 +6,28 @@ const userEmail = Joi.string().email().required();
 const userPassword = Joi.string().min(6).required();
 const userImage = Joi.string();
 
-const tables = Joi.object({
+const user = Joi.object({
     displayName: userName,
     email: userEmail,
     password: userPassword,
     image: userImage,
 });
 
-module.exports = async (obj) => {
-    const { error } = tables.validate(obj);
+module.exports = async (newUser) => {
+    const { err } = user.validate(newUser);
 
-    if (error) {
-        return { type: 400, message: error.message };
+    if (err) {
+        return { type: 400, message: err.message };
     }
-
-    const data = await User.findAll({ where: { email: obj.email } });
+    const data = await User.findAll({ where: { email: newUser.email } });
 
     if (data.length !== 0) {
         return { type: 409, message: 'User already registered' };
     }
 
-    await User.create(obj);
+    await User.create(newUser);
 
-    const payload = obj;
+    const payload = newUser;
     delete payload.password;
 
     return { type: null, message: payload };
