@@ -14,10 +14,10 @@ const user = Joi.object({
 });
 
 module.exports = async (newUser) => {
-    const { err } = user.validate(newUser);
+    const { error } = user.validate(newUser);
 
-    if (err) {
-        return { type: 400, message: err.message };
+    if (error) {
+        return { type: 400, message: error.message };
     }
     const data = await User.findAll({ where: { email: newUser.email } });
 
