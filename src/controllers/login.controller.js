@@ -1,8 +1,5 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const services = require('../services/login.service');
-
-const secret = process.env.JWT_SECRET;
+const generateToken = require('../utils/generateToken');
 
 module.exports = async (req, res) => {
   const data = await services(req.body);
@@ -10,8 +7,7 @@ module.exports = async (req, res) => {
   if (data.type) {
     return res.status(400).json({ message: data.type });
   }
-  const jwtConfig = { algorithm: 'HS256' };
-  const token = jwt.sign({ email: req.body.email }, secret, jwtConfig);
+  const token = generateToken({ email: req.body.email });
 
   res.status(200).json({ token });
 };

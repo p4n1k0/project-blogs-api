@@ -11,5 +11,6 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/login', controllers.login);
+app.post('/user', controllers.newUser);
 
 app.listen(port, () => console.log('ouvindo porta', port));
