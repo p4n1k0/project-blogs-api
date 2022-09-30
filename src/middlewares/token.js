@@ -11,6 +11,6 @@ module.exports = (req, res, next) => {
   if (tokenRes.type === 401) {
     return res.status(401).json({ message: 'Expired or invalid token' });
   }
-
+  req.hashToken = tokenRes;
   next();
 };
