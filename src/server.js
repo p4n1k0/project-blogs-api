@@ -16,5 +16,6 @@ app.post('/user', controllers.newUser);
 app.get('/user', token, controllers.getUsers);
 app.get('/user/:id', token, controllers.getUserById);
 app.post('/categories', token, controllers.newCategory);
+app.get('/categories', token, controllers.getCategories);
 
 app.listen(port, () => console.log('ouvindo porta', port));
