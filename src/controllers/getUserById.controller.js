@@ -1,8 +1,8 @@
-const service = require('../services/getUserById.service');
+const services = require('../services/getUserById.service');
 
 module.exports = async (req, res) => {
     const { id } = req.params;
-    const data = await service(id);
+    const data = await services(id);
 
     if (data) {
         return res.status(200).json(data);
