@@ -4,7 +4,7 @@ const controllers = require('./controllers');
 const token = require('./middlewares/token');
 
 // não remova a variável `API_PORT` ou o `listen`
-const port = process.env.API_PORT || 3000;
+const port = process.env.API_PORT || 3001;
 
 // não remova esse endpoint
 app.get('/', (_request, response) => {
@@ -19,4 +19,5 @@ app.post('/categories', token, controllers.newCategory);
 app.get('/categories', token, controllers.getCategories);
 app.post('/post', token, controllers.newPost);
 
-app.listen(port, () => console.log('ouvindo porta', port));
+app.listen(port, () => {
+  console.log('ouvindo porta', port)});
