@@ -10,6 +10,5 @@ module.exports = async () => {
           'image',
         ],
   });
-
   return data;  
 };

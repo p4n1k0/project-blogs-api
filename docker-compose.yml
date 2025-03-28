@@ -31,7 +31,7 @@ services:
     # na notação porta_de_fora:porta_de_dentro
     ports:
       # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
-      - 3001:3001
+      - 3000:3000
     # Configura as variáveis de ambiente dentro do container
     environment:
       MYSQL_USER: root
@@ -39,7 +39,7 @@ services:
       MYSQL_HOST: db # Nome do service logo abaixo
       JWT_SECRET: secretJWT
       API_HOST: 'node'
-      API_PORT: 3001
+      API_PORT: 3000
       NODE_ENV: 'development'
     networks:
       - blogs_api_net
@@ -47,7 +47,7 @@ services:
   # Serviço que irá rodar o banco de dados
   db:
     container_name: blogs_api_db
-    image: mysql:8.0.23
+    image: mysql:8.0.31
     # Indica de forma fixa a plataforma na qual o banco irá rodar
     platform: linux/x86_64
     restart: always

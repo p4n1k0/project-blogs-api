@@ -15,20 +15,12 @@ const user = Joi.object({
 
 module.exports = async (newUser) => {
     const { error } = user.validate(newUser);
+    if (error) return { type: 400, message: error.message };
 
-    if (error) {
-        return { type: 400, message: error.message };
-    }
     const data = await User.findAll({ where: { email: newUser.email } });
-
-    if (data.length !== 0) {
-        return { type: 409, message: 'User already registered' };
-    }
-
+    if (data.length !== 0) return { type: 409, message: 'User already registered' };
     await User.create(newUser);
-
     const payload = newUser;
     delete payload.password;
-
     return { type: null, message: payload };
 };
