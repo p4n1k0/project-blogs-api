@@ -1,13 +1,8 @@
 const login = require('./login.controller');
 const { newUser, getUsers, getUserById, deleteUser } = require('./user.controller');
-const newCategory = require('./newCategory.controller');
-const getCategories = require('./getCategories.controller');
-const newPost = require('./newPost.controller');
-const getPosts = require('./getPosts.controller');
-const getPostById = require('./getPostById.controller');
-const editPost = require('./editPost.controller');
-const deletePost = require('./deletePost.controller');
-const findPost = require('./findPost.controller');
+const { newCategory, getCategories } = require('./category.controller');
+const { newPost, getPosts, getPostById, deletePost, editPost, findPost } = require('./posts.controller');
+
 
 module.exports = {
   login,
