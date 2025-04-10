@@ -1,9 +1,11 @@
 const service = require('../services/user.service');
 const generateToken = require('../utils/generateToken');
 
+
 const newUser = async (req, res) => {
   const data = await service.newUser(req.body);
   if (data.type) return res.status(data.type).json({ message: data.message });
+  
   const token = generateToken(data.message);
   res.status(201).json({ token });
 };

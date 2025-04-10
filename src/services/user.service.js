@@ -20,35 +20,23 @@ const newUser = async (newUser) => {
 
   const data = await User.findAll({ where: { email: newUser.email } });
   if (data.length !== 0) return { type: 409, message: 'User already registered' };
+
   await User.create(newUser);
-  const payload = newUser;
+  const payload = newUser;  
   delete payload.password;
   return { type: null, message: payload };
 };
 
+
+const attributes = ['id', 'displayName', 'email', 'image'];
 const getUsers = async () => {
-  const data = await User.findAll({
-    attributes:
-      [
-        'id',
-        'displayName',
-        'email',
-        'image',
-      ],
-  });
+  const data = await User.findAll({ attributes: attributes });
   return data;
 };
 
+
 const getUserById = async (id) => {
-  const data = await User.findOne({
-    where: { id },
-    attributes: [
-      'id',
-      'displayName',
-      'email',
-      'image',
-    ],
-  });
+  const data = await User.findOne({ where: { id }, attributes: attributes });
   return data;
 };
 
@@ -56,6 +44,7 @@ const deleteUser = async (email) => {
   const user = await User.findOne({ where: { email } });
   user.destroy();
 };
+
 
 module.exports = {
   newUser,
