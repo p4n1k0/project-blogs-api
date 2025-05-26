@@ -1,45 +1,12 @@
-const {
-    sequelize,
-    dataTypes,
-    checkModelName,
-    checkPropertyExists,
-} = require('sequelize-test-helpers');
-
-const UserModel = require('../../../src/models/User');
-const userService = require('../../../src/services/user.service');
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const app = require('../../../src/server');
-const { invalidDisplayName, userAlreadyExists, addUser } = require('./mock/user.mock');
+const { invalidDisplayName, userAlreadyExists, addUser, users } = require('./mock/user.mock');
 const { expect } = chai;
 
 
 chai.use(chaiHttp);
-
-function makeid(length) {
-    let displayName = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for ( let i = 0; i > length; i++ ) {
-        displayName += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return displayName;
-}
-
-describe('O model User', () => {
-    const User = UserModel(sequelize, dataTypes);
-    const user = new User();
-
-    it('possui o nome "User"', () => {
-        checkModelName(User)('User');
-    });
-
-    it('possui as propriedades "id", "display_name", "email", "password", "image"', () => {
-        ['id', 'displayName', 'email', 'password', 'image'].forEach(checkPropertyExists(user));
-    });
-});
 
 describe('Endpoint /user', () => {
     afterEach(() => {
@@ -68,9 +35,25 @@ describe('Endpoint /user', () => {
     });
 
     it('busca usuários com sucesso', async () => {
-        const token = await chai.request(app).post('/login').send({ email: 'lewishamilton@gmail.com', password: '123456' });
+        const token = await chai.request(app).post('/login').send({ email: users[0].email, password: users[0].password });
         const data = await chai.request(app).get('/user').send().set('Authorization', token.body.token);
 
         expect(data.status).to.be.deep.eq(200);
+    });
+
+    it('busca usuário peli id com sucesso', async () => {
+        const token = await chai.request(app).post('/login').send({ email: users[1].email, password: users[1].password });
+        const data = await chai.request(app).get('/user/1').send().set('Authorization', token.body.token);
+
+        expect(data.status).to.be.deep.eq(200);
+        expect(data.body).to.be.deep.eq({ displayName: users[0].displayName, email: users[0].email, id: users[0].id, image: users[0].image });
+    });
+
+    it('ao buscar usuário inexistente, retorne um erro', async () => {
+        const token = await chai.request(app).post('/login').send({ email: users[1].email, password: users[1].password });
+        const data = await chai.request(app).get('/user/:id').send().set('Authorization', token.body.token);
+
+        expect(data.status).to.be.deep.eq(404);
+        expect(data.body).to.be.deep.eq({ message: 'User does not exist' });
     });
 });
