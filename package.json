@@ -14,6 +14,7 @@
     "jsonwebtoken": "8.5.1",
     "morgan": "1.10.0",
     "mysql2": "2.1.0",
+    "nyc": "^15.1.0",
     "sequelize": "6.3.4",
     "shelljs": "0.8.4"
   },
@@ -29,12 +30,14 @@
     "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test API_PORT=3030 jest -i --verbose --forceExit",
     "test:dev": "npx -y wait-on -t 300000 http://localhost:3000 && NODE_ENV=development API_PORT=3000 jest -i --verbose --forceExit",
     "posttest": "npm run kill:test",
-    "test-coverage": "jest -i --verbose --forceExit --coverage",
+    "test-coverage": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
-    "reset": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all"
+    "reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "devDependencies": {
+    "chai": "4.3.4",
+    "chai-http": "4.3.0",
     "change-case": "4.1.2",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.2.0",
@@ -43,9 +46,12 @@
     "frisby": "2.1.2",
     "jest": "26.0.1",
     "jest-each": "28.0.1",
+    "mocha": "10.0.0",
     "nodemon": "2.0.15",
     "sequelize-cli": "6.2.0",
     "sequelize-jest-helpers-trybe": "1.0.0",
+    "sequelize-test-helpers": "1.4.3",
+    "sinon": "14.0.0",
     "supertest": "4.0.2",
     "wait-on": "6.0.1"
   }

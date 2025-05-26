@@ -29,3 +29,5 @@ app.delete('/post/:id', token, controllers.deletePost);
 
 app.listen(port, () => {
   console.log('ouvindo porta', port)});
+
+module.exports = app;

@@ -3,7 +3,6 @@ const { newUser, getUsers, getUserById, deleteUser } = require('./user.controlle
 const { newCategory, getCategories } = require('./category.controller');
 const { newPost, getPosts, getPostById, deletePost, editPost, findPost } = require('./posts.controller');
 
-
 module.exports = {
   login,
   newUser,
