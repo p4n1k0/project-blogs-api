@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const app = require('../../../src/server');
 const { users } = require('./mock/user.mock');
-const { notTitle, notCategoryId, addPost } = require('./mock/post.mock');
+const { notTitle, notCategoryId, addPost, postById, searchPost } = require('./mock/post.mock');
 const { expect } = chai;
 
 
@@ -110,5 +110,12 @@ describe('Endpoint /post', () => {
         const deleted = await chai.request(app).delete(`/post/${data.body.id}`).send().set('Authorization', token.body.token);
 
         expect(deleted.status).to.be.deep.eq(204);
+    });
+
+    it('buscando post pelo por caracteres com sucesso', async () => {
+        const token = await chai.request(app).post('/login').send({ email: users[0].email, password: users[0].password });
+        const data = await chai.request(app).get('/post/search?q=vamos').send().set('Authorization', token.body.token);
+
+        expect(data.status).to.be.deep.eq(200);
     });
 });

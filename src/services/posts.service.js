@@ -2,8 +2,7 @@ const { Category, User, BlogPost, PostCategory } = require('../models');
 const Sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const config = require('../config/config');
-const env = process.env.NODE_ENV || 'test';
-const sequelize = new Sequelize(config[env]);
+const sequelize = new Sequelize(config[process.env.NODE_ENV]);
 
 
 const newPost = async ({ title, content, categoryIds }, email) => {

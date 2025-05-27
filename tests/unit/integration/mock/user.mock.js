@@ -46,9 +46,16 @@ const addUser = {
     password: stringAleatoria,
 };
 
+const deleteUser = {
+    displayName: 'Senna Araujo',
+    email: 'sennaara@email.com',
+    password: '123456',
+};
+
 module.exports = {
     invalidDisplayName,
     userAlreadyExists,
     addUser,
-    users
+    users,
+    deleteUser
 };
